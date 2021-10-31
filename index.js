@@ -28,6 +28,7 @@ async function run (){
             const services = await cursor.toArray();
             res.send(services)
         });
+
         // GET SINGLE API
         app.get('/services/:id', async(req, res)=>{
             const id = req.params.id;
@@ -47,6 +48,7 @@ async function run (){
             
         })
 
+        
         // add data to cart collection with additional info
         app.post('/booking/add', async(req, res)=>{
             const booking = req.body;
@@ -54,6 +56,17 @@ async function run (){
             const result = await myOrderCollection.insertOne(booking)
             res.json(result)
         })
+        // Post
+        app.post('/services',async(req, res) =>{
+            const service = req.body;
+        //    console.log('hitting the dating', service);
+
+            const result = await serviceCollection.insertOne(service);
+            // console.log(result);
+            res.json(result)
+            console.log(result);
+        });
+
         // delete one item
         app.delete('/booking/add/:id',async (req,res)=> {
             const id = req.params.id;
