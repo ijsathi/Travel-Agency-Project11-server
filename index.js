@@ -19,6 +19,7 @@ async function run (){
         await client.connect();
         const database = client.db('travleAgency');
         const serviceCollection = database.collection('places')
+        const myOrderCollection = database.collection('myBooking')
        
 
         // GET API
@@ -36,6 +37,31 @@ async function run (){
             res.json(service)
 
         })
+        // Load data according to user id get api
+        app.get('/cart/:uid', async(req, res)=>{
+            const uid = req.params.uid;
+            const query = {uid: uid};
+            const result = await myOrderCollection.find(query).toArray();
+            res.json(result);
+
+            
+        })
+
+        // add data to cart collection with additional info
+        app.post('/booking/add', async(req, res)=>{
+            const booking = req.body;
+            console.log(booking);
+            const result = await myOrderCollection.insertOne(booking)
+            res.json(result)
+        })
+        // delete one item
+        app.delete('/booking/add/:id',async (req,res)=> {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await myOrderCollection.deleteOne(query);
+            res.json(result);
+            console.log(result);
+          });
 
     }
     finally{
