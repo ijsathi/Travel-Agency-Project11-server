@@ -49,5 +49,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log("server is runnig", port);
+    console.log("server is running", port);
 })
